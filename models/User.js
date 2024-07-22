@@ -1,13 +1,13 @@
 const { Schema, model } = require('mongoose');
-// const Thought = require('./Thought');
+
 
 const userSchema = new Schema(
     {
-        userName: {
+        username: {
             type: String,
             unique: true,
-            required: true,
-            trim: [true, 'User Name is required']
+            required: [true, 'User Name is required'],
+            trim: true,
         },
         email: {
             type: String,
@@ -34,7 +34,8 @@ const userSchema = new Schema(
         },
         toObject: {
             virtuals: true
-        }
+        },
+        id:false
     }
     
 );

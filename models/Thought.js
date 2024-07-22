@@ -1,39 +1,5 @@
-const { Schema, model, default: mongoose } = require('mongoose');
-
-const ReactionSchema = new Schema({
-    reactionId: {
-        type: Schema.Types.ObjectId,
-        default: () => new mongoose.Types.ObjectId()
-    },
-    reactionBody: {
-        type: String,
-        required: true,
-        maxLength: 280
-    },
-    userName: {
-        type: String,
-        required: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        // Date format will be updated at a later time
-        get: function (createdAt) {
-            return createdAt.toLocalString();
-        }
-    },
-    },
-    {
-        toJSON: {
-            getters: true
-        },
-        toObject: {
-            getters: true
-        },
-        id: false
-
-    }
-);
+const { Schema, model } = require('mongoose');
+const ReactionSchema = require('./Reaction');
 
 const ThoughtSchema = new Schema(
     {
@@ -47,19 +13,25 @@ const ThoughtSchema = new Schema(
             type: Date,
             default: Date.now,
             // Date format will be updated at a later time
-            get: function (createdAt) {
-                return createdAt.toLocalString();
-            }
+            get: timestamp => new Date(timestamp).toLocaleString(),
+       
         },
-        userName: {
+        username: {
             type: String,
             required: true
         },
         reactions: [ReactionSchema]
     },
     {
-        toJSON: { getters: true },
-        toObject: { getters: true }
+        toJSON: { 
+            getters: true,
+            virtuals: true,
+        },
+        toObject: {
+            getters: true,
+            virtuals: true,
+        },
+        id: false,
     }
 );
 
