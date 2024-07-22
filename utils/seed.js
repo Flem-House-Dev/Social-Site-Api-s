@@ -18,8 +18,10 @@ connection.once('open', async () => {
     await connection.dropCollection('users');
   }
 
-  const users = [];
   const thoughts = getRandomThoughts(10);
+  const createdThoughts = await Thought.insertMany(thoughts);
+
+  const users = [];
 
   for (let i = 0; i < 20; i++) {
     const username = getRandomName();
@@ -28,13 +30,12 @@ connection.once('open', async () => {
     users.push({
       username,
       email,
-      thoughts: thoughts.slice(0, 5).map(thought => thought._id),
+      thoughts: createdThoughts.slice(0, 5).map(thought => thought._id),
       friends: []
     });
   }
 
   await User.insertMany(users);
-  await Thought.insertMany(thoughts);
 
   // Update users with random friends
   const allUsers = await User.find();
@@ -46,8 +47,8 @@ connection.once('open', async () => {
     await user.save();
   }
 
-//   console.table(users);
-//   console.table(thoughts);
+  console.table(users);
+  console.table(thoughts);
   console.info('Seeding complete! 🌱');
   process.exit(0);
 });

@@ -18,7 +18,7 @@ module.exports = {
             const thought = await Thought.findOne({ _id: req.params.thoughtId});
 
             if(!thought) {
-                res.status(404).json({ message: 'No user with that id found' });
+                res.status(404).json({ message: 'No thought with that id found' });
                 return;
             }
 
@@ -104,7 +104,6 @@ module.exports = {
     // Delete a reaction
     async deleteReaction(req,res) {
         try {
-            console.log(req.params);
             const updatedThought = await Thought.findByIdAndUpdate(
               req.params.thoughtId,
               { $pull: { reactions: { reactionId: req.params.reactionId } } },
