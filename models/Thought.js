@@ -12,7 +12,6 @@ const ThoughtSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            // Date format will be updated at a later time
             get: timestamp => new Date(timestamp).toLocaleString(),
        
         },
