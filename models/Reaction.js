@@ -28,7 +28,7 @@ const ReactionSchema = new Schema({
         toObject: {
             getters: true
         },
-        id: false
+        _id: false
 
     }
 );
